@@ -6,12 +6,15 @@ export const LoginPage = () => {
   const [showSignUp, setShowSignUp] = useState(false);
 
   return (
-    <div className="login-box">
-      {showSignUp ? (
-        <ChildSignUp setShowSignUp={setShowSignUp} />
-      ) : (
-        <ChildLogin setShowSignUp={setShowSignUp} />
-      )}
-    </div>
+    <>
+      <div className="logo"></div>
+      <div className="login-box">
+        {showSignUp ? (
+          <ChildSignUp setShowSignUp={setShowSignUp} />
+        ) : (
+          <ChildLogin setShowSignUp={setShowSignUp} />
+        )}
+      </div>
+    </>
   );
 };

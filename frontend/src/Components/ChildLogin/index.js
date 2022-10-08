@@ -10,7 +10,7 @@ export const ChildLogin = ({ setShowSignUp }) => {
 
   const onSignIn = async (e) => {
     if (userInput === "" || password === "") {
-      setError("Missing username/email or password!");
+      setError("Missing email or password!");
     } else {
       try {
         let userDetails = {
@@ -23,17 +23,13 @@ export const ChildLogin = ({ setShowSignUp }) => {
           },
         };
 
-        const { data } = await axios.post(
-          "https://read-herring.herokuapp.com/users/login/",
-          JSON.stringify(userDetails),
-          options
-        );
+        /*  const { data } = await axios.post(JSON.stringify(userDetails), options);
         if (data.error) {
           setError(data.error);
         } else {
           //Login user here
           //Set user data here
-        }
+        } */
 
         /* loginError.textContent = "Incorrect email or password"; */
       } catch (err) {
@@ -60,19 +56,16 @@ export const ChildLogin = ({ setShowSignUp }) => {
 
   return (
     <>
-      <Modal.Header className="align-items-center"></Modal.Header>
-      <Modal.Body>
-        <Modal.Title id="contained-modal-title-vcenter" className="login-title">
-          Log In
-        </Modal.Title>
-        <form className="login">
+      <div>
+        <div className="login-title">Log In</div>
+        <form className="form-box">
           <label htmlFor="login-input"></label>
           <input
             className="login-input"
             type="text"
             id="login-input"
             required
-            placeholder="Email or Username"
+            placeholder="Email"
             onChange={onUserInputChange}
             aria-label="login-email"
           />
@@ -87,27 +80,20 @@ export const ChildLogin = ({ setShowSignUp }) => {
             aria-label="password"
           />
           <div className="login-error">{error}</div>
-        </form>
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="login-button-group">
-          <button
-            className="login-button"
-            data-testid="login"
-            onClick={onSignIn}
-          >
+          <button className="login-button" onClick={onSignIn}>
             Sign in
           </button>
-          <button
-            className="login-button-link"
-            id="toggle"
-            aria-label="toggle-to-sign-up"
-            onClick={() => setShowSignUp(true)}
-          >
-            Don't have an account? Create account
-          </button>
-        </div>
-      </Modal.Footer>
+        </form>
+      </div>
+
+      <button
+        className="login-button-link"
+        id="toggle"
+        aria-label="toggle-to-sign-up"
+        onClick={() => setShowSignUp(true)}
+      >
+        Don't have an account? Request here!
+      </button>
     </>
   );
 };

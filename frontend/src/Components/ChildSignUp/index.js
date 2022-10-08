@@ -1,94 +1,101 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+import emailjs from "@emailjs/browser";
 
 export const ChildSignUp = ({ setShowSignUp }) => {
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
+  const [number, setNumber] = useState("");
+
   const [error, setError] = useState("");
 
-  const onSignUp = async (e) => {
-    if (email === "" || password === "") {
-      setError("Missing username or password!");
-    } else if (password !== confirmPassword) {
-      setError("Passwords do not match!");
-    } else if (!email.includes("@")) {
-      setError("Email is invalid! Check for @ symbol.");
-    } else if (password.length < 8) {
-      setError("Password is too short, please make it 8 characters");
+  const onRequestAccount = async (e) => {
+    e.preventDefault();
+    if (email === "" || number === "" || firstName === "" || lastName === "") {
+      setError("Missing fields!");
+    } else if (email !== confirmEmail) {
+      setError("Emails do not match!");
+    } else if (!email.includes("@bluesquare")) {
+      setError("Email is invalid, only BlueSquare accounts allowed");
+    } else if (number.length < 7 || number.length > 12) {
+      setError("Invalid phone number");
     } else {
-      try {
-        let registerDetails = {
-          username,
-          email,
-          password,
-        };
-        let options = {
-          headers: {
-            "Content-Type": "application/json",
+      setError("");
+      let values = { firstName, lastName, email, number };
+      emailjs
+        .send(
+          "service_m2ns8nj",
+          "template_jbgslyv",
+          values,
+          "Srs742CC4TX_kVi0u"
+        )
+        .then(
+          () => {
+            alert("Your request has been sent");
+            setConfirmEmail("");
+            setEmail("");
+            setFirstName("");
+            setLastName("");
+            setNumber("");
           },
-        };
-
-        const { data } = await axios.post(
-          "https://read-herring.herokuapp.com/users/register/",
-          JSON.stringify(registerDetails),
-          options
+          (error) => {
+            console.log(error.text);
+            alert("Error in request, please seek assistance");
+          }
         );
-
-        if (data.error) {
-          setError(data.error);
-        } else {
-          setShowSignUp(false);
-        }
-      } catch (err) {
-        if (!err.response) {
-          setError("No server response!");
-        } else if (err.response.status === 401) {
-          setError(
-            "Unauthorized! Create an account or check your email and password!"
-          );
-        } else {
-          setError("Sign up failed!");
-        }
-      }
     }
   };
 
-  const onUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const onFirstNameChange = (e) => {
+    setFirstName(e.target.value);
+  };
+
+  const onLastNameChange = (e) => {
+    setLastName(e.target.value);
   };
 
   const onEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const onPasswordChange = (e) => {
-    setPassword(e.target.value);
+  const onConfirmEmailChange = (e) => {
+    setConfirmEmail(e.target.value);
   };
 
-  const onConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
+  const onNumberChange = (e) => {
+    //Only allows numbers for better database formatting
+    const onlyNumbers = e.target.value.replace(/\D/g, "");
+    console.log(onlyNumbers);
+    setNumber(onlyNumbers);
   };
 
   return (
     <>
-      <Modal.Header className="align-items-center"></Modal.Header>
-      <Modal.Body>
-        <Modal.Title id="contained-modal-title-vcenter" className="login-title">
-          Sign Up
-        </Modal.Title>
-        <form className="register">
-          <label htmlFor="register-username"></label>
+      <div>
+        <div className="login-title">Request an account</div>
+        <form className="form-box">
+          <label htmlFor="register-firstName"></label>
           <input
             className="login-input"
             type="text"
-            id="register-username"
+            id="register-firstName"
             required
-            placeholder="Username"
-            onChange={onUsernameChange}
-            aria-label="username"
+            placeholder="First Name"
+            onChange={onFirstNameChange}
+            aria-label="First Name"
+          />
+          <label htmlFor="register-lastName"></label>
+          <input
+            className="login-input"
+            type="text"
+            id="register-lastName"
+            required
+            placeholder="Last Name"
+            onChange={onLastNameChange}
+            aria-label="Last Name"
           />
           <label htmlFor="register-email"></label>
           <input
@@ -100,48 +107,43 @@ export const ChildSignUp = ({ setShowSignUp }) => {
             onChange={onEmailChange}
             aria-label="email"
           />
-          <label htmlFor="register-password"></label>
+          <label htmlFor="register-confirmEmail"></label>
           <input
             className="login-input"
-            type="password"
-            id="register-password"
+            type="text"
+            id="register-confirmEmail"
             required
-            placeholder="Password"
-            onChange={onPasswordChange}
-            aria-label="password"
+            placeholder="Confirm Email"
+            onChange={onConfirmEmailChange}
+            aria-label="email"
           />
-          <label htmlFor="confirm-register-password"></label>
+
+          <label htmlFor="register-number"></label>
           <input
             className="login-input"
-            type="password"
-            id="confirm-register-password"
+            type="tel"
+            id="register-number"
             required
-            placeholder="Confirm password"
-            onChange={onConfirmPasswordChange}
-            aria-label="confirm-password"
+            placeholder="Phone Number"
+            onChange={onNumberChange}
+            aria-label="number"
           />
           <div className="login-error">{error}</div>
+
+          <button className="login-button" onClick={onRequestAccount}>
+            Request
+          </button>
         </form>
-      </Modal.Body>
-      <Modal.Footer>
-        <div className="login-button-group">
-          <button
-            className="login-button"
-            data-testid="signup"
-            onClick={onSignUp}
-          >
-            Sign up
-          </button>
-          <button
-            className="login-button-link"
-            aria-label="toggle-to-log-in"
-            id="toggle"
-            onClick={() => setShowSignUp(false)}
-          >
-            Already have an account? Sign in
-          </button>
-        </div>
-      </Modal.Footer>
+      </div>
+
+      <button
+        className="login-button-link"
+        aria-label="toggle-to-log-in"
+        id="toggle"
+        onClick={() => setShowSignUp(false)}
+      >
+        Already have an account? Sign in
+      </button>
     </>
   );
 };
