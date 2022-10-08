@@ -1,21 +1,12 @@
 import React, { useState } from "react";
-
+import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 
-import Modal from "react-bootstrap/Modal";
-import { useDispatch } from "react-redux";
-
-import { login, setUser } from "../../actions";
-
-export const ChildLoginModal = (props) => {
+export const ChildLogin = ({ setShowSignUp }) => {
   //Forms
   const [userInput, setUserInput] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  //Redux
-
-  const dispatch = useDispatch();
 
   const onSignIn = async (e) => {
     if (userInput === "" || password === "") {
@@ -40,10 +31,8 @@ export const ChildLoginModal = (props) => {
         if (data.error) {
           setError(data.error);
         } else {
-          dispatch(login());
-
-          dispatch(setUser(data));
-          props.onHide();
+          //Login user here
+          //Set user data here
         }
 
         /* loginError.textContent = "Incorrect email or password"; */
@@ -113,7 +102,7 @@ export const ChildLoginModal = (props) => {
             className="login-button-link"
             id="toggle"
             aria-label="toggle-to-sign-up"
-            onClick={() => props.setShowSignUp(true)}
+            onClick={() => setShowSignUp(true)}
           >
             Don't have an account? Create account
           </button>
