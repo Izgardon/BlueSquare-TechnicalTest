@@ -1,0 +1,12 @@
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+    id serial PRIMARY KEY,
+    firstName VARCHAR(250) NOT NULL,
+    lastName VARCHAR(250) NOT NULL,
+    jobRole VARCHAR(250) NOT NULL,
+    department VARCHAR(250) NOT NULL,
+    email VARCHAR(100)NOT NULL UNIQUE,
+    number VARCHAR(100)NOT NULL UNIQUE,
+    password VARCHAR(500) NOT NULL UNIQUE,
+);
