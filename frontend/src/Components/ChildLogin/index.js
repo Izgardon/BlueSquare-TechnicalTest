@@ -1,21 +1,27 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const ChildLogin = ({ setShowSignUp }) => {
   //Forms
-  const [userInput, setUserInput] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const navigate = useNavigate();
+
   const onSignIn = async (e) => {
-    if (userInput === "" || password === "") {
+    e.preventDefault();
+    if (email === "" || password === "") {
       setError("Missing email or password!");
     } else {
       try {
-        let userDetails = {
-          user_input: userInput,
-          password,
+        let data = { name: "william", age: 17 };
+        navigate("/users", { state: data });
+        /*  let loginDetails = {
+          email: email,
+          password: password,
         };
         let options = {
           headers: {
@@ -23,15 +29,16 @@ export const ChildLogin = ({ setShowSignUp }) => {
           },
         };
 
-        /*  const { data } = await axios.post(JSON.stringify(userDetails), options);
+        const { data } = await axios.post(
+          "http://localhost:5005/auth/register",
+          JSON.stringify(loginDetails),
+          options
+        );
         if (data.error) {
           setError(data.error);
         } else {
-          //Login user here
-          //Set user data here
+          navigate("/users", { state: data });
         } */
-
-        /* loginError.textContent = "Incorrect email or password"; */
       } catch (err) {
         if (!err.response) {
           setError("No server response!");
@@ -46,8 +53,8 @@ export const ChildLogin = ({ setShowSignUp }) => {
     }
   };
 
-  const onUserInputChange = (e) => {
-    setUserInput(e.target.value);
+  const onEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const onPasswordChange = (e) => {
@@ -64,9 +71,10 @@ export const ChildLogin = ({ setShowSignUp }) => {
             className="login-input"
             type="text"
             id="login-input"
+            value={email}
             required
             placeholder="Email"
-            onChange={onUserInputChange}
+            onChange={onEmailChange}
             aria-label="login-email"
           />
           <label htmlFor="login-password"></label>
@@ -74,6 +82,7 @@ export const ChildLogin = ({ setShowSignUp }) => {
             className="login-input"
             type="password"
             id="login-password"
+            value={password}
             required
             placeholder="Password"
             onChange={onPasswordChange}

@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt");
 
 async function registerAccount(req, res) {
   try {
-    const user = await User.findUsersByEmail(req.body.email);
+    console.log(req.body);
+    /* const user = await User.findUsersByEmail(req.body.email);
 
     if (!user.length) {
       const salt = await bcrypt.genSalt();
@@ -16,7 +17,7 @@ async function registerAccount(req, res) {
       res.status(201).json({ msg: "Account created" });
     } else {
       throw new Error("Account already on system");
-    }
+    } */ res.json("All good");
   } catch (err) {
     res.status(500).json({ err });
   }

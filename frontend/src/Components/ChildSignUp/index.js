@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
+
 import axios from "axios";
 import emailjs from "@emailjs/browser";
 
@@ -7,45 +7,72 @@ export const ChildSignUp = ({ setShowSignUp }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [confirmEmail, setConfirmEmail] = useState("");
+
   const [number, setNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState("");
+
+  const sendEmail = async (e) => {
+    /* let values = { firstName, lastName, email, number };
+    emailjs
+      .send("service_m2ns8nj", "template_jbgslyv", values, "Srs742CC4TX_kVi0u")
+      .then(
+        () => {
+          alert("Your request has been sent");
+          setEmail("");
+          setFirstName("");
+          setLastName("");
+          setNumber("");
+          setPassword("");
+          setConfirmPassword("");
+        },
+        (error) => {
+          console.log(error.text);
+          alert("Error in request, please seek assistance");
+        }
+      ); */
+  };
 
   const onRequestAccount = async (e) => {
     e.preventDefault();
     if (email === "" || number === "" || firstName === "" || lastName === "") {
       setError("Missing fields!");
-    } else if (email !== confirmEmail) {
-      setError("Emails do not match!");
+    } else if (password !== confirmPassword) {
+      setError("Passwords do not match!");
     } else if (!email.includes("@bluesquare")) {
       setError("Email is invalid, only BlueSquare accounts allowed");
     } else if (number.length < 7 || number.length > 12) {
       setError("Invalid phone number");
     } else {
       setError("");
-      let values = { firstName, lastName, email, number };
-      emailjs
-        .send(
-          "service_m2ns8nj",
-          "template_jbgslyv",
-          values,
-          "Srs742CC4TX_kVi0u"
-        )
-        .then(
-          () => {
-            alert("Your request has been sent");
-            setConfirmEmail("");
-            setEmail("");
-            setFirstName("");
-            setLastName("");
-            setNumber("");
+      try {
+        let accountDetails = {
+          email: email,
+          password: password,
+        };
+        let options = {
+          headers: {
+            "Content-Type": "application/json",
           },
-          (error) => {
-            console.log(error.text);
-            alert("Error in request, please seek assistance");
-          }
+        };
+
+        await axios.post(
+          "http://localhost:5005/auth/register",
+          JSON.stringify(accountDetails),
+          options
         );
+
+        sendEmail();
+      } catch (err) {
+        if (!err.response) {
+          setError("No server response");
+        } else {
+          console.error(err);
+          setError("Login failed!");
+        }
+      }
     }
   };
 
@@ -61,14 +88,18 @@ export const ChildSignUp = ({ setShowSignUp }) => {
     setEmail(e.target.value);
   };
 
-  const onConfirmEmailChange = (e) => {
-    setConfirmEmail(e.target.value);
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const onConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
   };
 
   const onNumberChange = (e) => {
     //Only allows numbers for better database formatting
     const onlyNumbers = e.target.value.replace(/\D/g, "");
-    console.log(onlyNumbers);
+
     setNumber(onlyNumbers);
   };
 
@@ -81,6 +112,7 @@ export const ChildSignUp = ({ setShowSignUp }) => {
           <input
             className="login-input"
             type="text"
+            value={firstName}
             id="register-firstName"
             required
             placeholder="First Name"
@@ -91,6 +123,7 @@ export const ChildSignUp = ({ setShowSignUp }) => {
           <input
             className="login-input"
             type="text"
+            value={lastName}
             id="register-lastName"
             required
             placeholder="Last Name"
@@ -101,32 +134,46 @@ export const ChildSignUp = ({ setShowSignUp }) => {
           <input
             className="login-input"
             type="text"
+            value={email}
             id="register-email"
             required
             placeholder="Email"
             onChange={onEmailChange}
             aria-label="email"
           />
-          <label htmlFor="register-confirmEmail"></label>
-          <input
-            className="login-input"
-            type="text"
-            id="register-confirmEmail"
-            required
-            placeholder="Confirm Email"
-            onChange={onConfirmEmailChange}
-            aria-label="email"
-          />
 
           <label htmlFor="register-number"></label>
           <input
             className="login-input"
+            value={number}
             type="tel"
             id="register-number"
             required
             placeholder="Phone Number"
             onChange={onNumberChange}
             aria-label="number"
+          />
+          <label htmlFor="register-password"></label>
+          <input
+            className="login-input"
+            type="password"
+            value={password}
+            id="register-password"
+            required
+            placeholder="Password"
+            onChange={onPasswordChange}
+            aria-label="password"
+          />
+          <label htmlFor="register-confirmPassword"></label>
+          <input
+            className="login-input"
+            type="password"
+            value={confirmPassword}
+            id="register-confirmPassword"
+            required
+            placeholder="Confirm Password"
+            onChange={onConfirmPasswordChange}
+            aria-label="password"
           />
           <div className="login-error">{error}</div>
 
