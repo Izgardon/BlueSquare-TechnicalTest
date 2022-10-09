@@ -8,5 +8,9 @@ CREATE TABLE users (
     department VARCHAR(250) NOT NULL,
     email VARCHAR(100)NOT NULL UNIQUE,
     number VARCHAR(100)NOT NULL UNIQUE,
-    password VARCHAR(500) NOT NULL UNIQUE,
+    
 );
+
+INSERT INTO users (id, firstName, lastName, jobRole, department, email, number) 
+VALUES
+    (1, 'Will', 'Sessions', 'Coder', 'Tech','will@bluesquare.com','0781927812' )

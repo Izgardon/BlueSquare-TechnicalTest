@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const pool = require("../config/db");
 
 module.exports = class User {
   constructor(data) {
@@ -15,7 +15,7 @@ module.exports = class User {
   static async create({ firstNameNew, lastNameNew, passwordNew, emailNew }) {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await db.query(
+        const result = await pool.query(
           "INSERT INTO users (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4) RETURNING *;",
           [firstNameNew, lastNameNew, passwordNew, emailNew]
         );

@@ -1,6 +1,6 @@
-const db = require("./db");
+const pool = require("./db");
 const fs = require("fs");
 
-const setup = fs.readFileSync(__dirname + "/setup.sql").toString();
+const setup = fs.readFileSync("config/setup.sql", { encoding: "utf8" });
 
-db.query(setup, () => console.log("Dev database seeded"));
+pool.query(setup, () => console.log("Dev database seeded"));

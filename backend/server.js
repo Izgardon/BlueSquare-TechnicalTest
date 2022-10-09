@@ -14,8 +14,8 @@ app.get("/", (req, res) => res.send("Welcome to BlueSquare database"));
 
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
-const employeeDataRoutes = require("./routes/employeeData");
-app.use("/employeeData", employeeDataRoutes);
+const usersRoutes = require("./routes/users");
+app.use("/users", usersRoutes);
 
 app.listen(process.env.PORT || 8080, () => {
   const PORT = process.env.PORT || 8080;

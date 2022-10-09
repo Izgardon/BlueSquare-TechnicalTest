@@ -7,7 +7,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/employees" element={<DataPage />} />
+        <Route path="/users" element={<DataPage />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>
