@@ -5,18 +5,27 @@ module.exports = class User {
     this.id = data.id;
     this.firstName = data.first_name;
     this.lastName = data.second_name;
-    this.password = data.password;
     this.email = data.email;
     this.number = data.number;
     this.jobRole = data.jobRole;
     this.department = data.department;
+    this.isAdmin = data.isAdmin;
   }
 
-  static async create({ firstNameNew, lastNameNew, passwordNew, emailNew }) {
+  //Used by admin to add new user to database
+  static async createNewUser({
+    firstNameNew,
+    lastNameNew,
+    jobRoleNew,
+    departmentNew,
+    emailNew,
+    numberNew,
+    isAdminNew,
+  }) {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await pool.query(
-          "INSERT INTO users (first_name, second_name, password_digest, email) VALUES ($1, $2, $3, $4) RETURNING *;",
+          "INSERT INTO users (firstName, lastName, jobRole, department, email, number, isAdmin) VALUES ($1, $2, $3, $4, $5, 6$, 7$) RETURNING *;",
           [firstNameNew, lastNameNew, passwordNew, emailNew]
         );
         const user = new User(result.rows[0]);
@@ -27,16 +36,15 @@ module.exports = class User {
     });
   }
 
-  static async findUsersByEmail(queryString) {
+  //Function fires when on datapage to get every users data and put it into state
+  static async getAll() {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await db.query(
-          "SELECT * FROM users WHERE email ILIKE $1;",
-          [queryString]
-        );
-        resolve(result.rows);
+        const allUsers = await pool.query("SELECT * FROM users");
+
+        resolve(allUsers);
       } catch (err) {
-        reject("Error finding users");
+        reject("Could not get users");
       }
     });
   }
