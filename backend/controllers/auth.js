@@ -10,7 +10,7 @@ async function registerAccount(req, res) {
       const hashed = await bcrypt.hash(req.body.password, salt);
 
       let person = await Auth.createNewAccount({
-        ...req.body,
+        email: req.body.email,
         password: hashed,
       });
       res.status(201).json({ msg: "Account created" });

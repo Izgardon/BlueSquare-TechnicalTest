@@ -6,13 +6,12 @@ async function getAllUsers(req, res) {
 }
 async function createNewUser(req, res) {
   try {
-    //createNewUser
+    User.createNewUser(req.body);
   } catch (err) {}
 }
 async function editUser(req, res) {
   try {
-    User.updateUser(req.params.id);
-    req.params.id;
+    User.updateUser(req.params.id, req.body);
   } catch (err) {}
 }
 
