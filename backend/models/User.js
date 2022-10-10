@@ -57,7 +57,7 @@ module.exports = class User {
         isAdminNew,
       } = data;
       try {
-        const result = await pool.query(
+        await pool.query(
           "UPDATE users SET firstname = $1, lastname = $2, jobrole = $3, department = $4, email = $5, number = $6, isadmin = $7 WHERE id = $8 RETURNING *;",
           [
             firstNameNew,
@@ -70,7 +70,7 @@ module.exports = class User {
             id,
           ]
         );
-        console.log(result.rows);
+
         resolve();
       } catch (err) {
         reject("User account could not be created");
@@ -82,7 +82,7 @@ module.exports = class User {
   static async getAll() {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await pool.query("SELECT * FROM users;");
+        const result = await pool.query("SELECT * FROM users ORDER BY id;");
 
         resolve(result.rows);
       } catch (err) {

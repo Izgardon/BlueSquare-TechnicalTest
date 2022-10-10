@@ -61,6 +61,7 @@ export const EditEmployeeModal = ({
     setIsAdmin(!isAdmin);
   };
 
+  //sends a request to update the user,only admins can change the admin field
   const editUser = async (e) => {
     e.preventDefault();
     if (
