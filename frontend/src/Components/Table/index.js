@@ -1,32 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export const Table = () => {
-  const data = [
-    {
-      firstName: "Anom",
-      lastName: "test",
-      jobRole: "Tech",
-      department: "Tech",
-      number: "09712839213",
-      email: "tst1@bluesquare.com",
-    },
-    {
-      firstName: "Megha",
-      lastName: "test",
-      jobRole: "Tech",
-      department: "Techle",
-      number: "09712839213",
-      email: "tst2@bluesquare.com",
-    },
-    {
-      firstName: "Subham",
-      lastName: "test",
-      jobRole: "Tech",
-      department: "Tech",
-      number: "09712839213",
-      email: "tst3@bluesquare.com",
-    },
-  ];
+export const Table = ({ allUsers, userDetails }) => {
+  useEffect(() => {
+    console.log(userDetails);
+  }, [userDetails]);
+
+  const rightToEdit = (userDetails) => {};
+
   return (
     <table>
       <thead>
@@ -40,15 +20,29 @@ export const Table = () => {
         </tr>
       </thead>
       <tbody>
-        {data.map((val, key) => {
+        {allUsers.map((val, key) => {
           return (
             <tr key={key}>
-              <td>{val.firstName}</td>
-              <td>{val.lastName}</td>
-              <td>{val.jobRole}</td>
+              <td>{val.firstname}</td>
+              <td>{val.lastname}</td>
+              <td>{val.jobrole}</td>
               <td>{val.department}</td>
               <td>{val.number}</td>
               <td>{val.email}</td>
+              {val.email === userDetails.email ? (
+                <td>
+                  <button className="edit-button">Edit My Details</button>{" "}
+                </td>
+              ) : (
+                ""
+              )}
+              {userDetails.isadmin && val.email !== userDetails.email ? (
+                <td>
+                  <button className="edit-button">Edit Employee Details</button>{" "}
+                </td>
+              ) : (
+                ""
+              )}
             </tr>
           );
         })}

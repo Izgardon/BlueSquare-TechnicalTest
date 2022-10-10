@@ -8,6 +8,7 @@ table {
   border: 2px solid black;
   width: min(800px, 90%);
   height: 200px;
+  background-color: var(--off-white);
 }
 
 th {

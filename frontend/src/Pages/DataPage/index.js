@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 import "./data.css";
 import { Table } from "../../Components/Table";
@@ -16,23 +17,24 @@ export const DataPage = () => {
     getAllData();
   }, []);
 
+  //Function that sends a request to get all users data, this is then put into a state and is queried from here, so no further requests are needed
   const getAllData = async () => {
-    try{
+    try {
       let options = {
         headers: {
           "Content-Type": "application/json",
         },
       };
 
-      const { data } = await axios.get(
-        "http://localhost:5005/users",
-        options
-      );
+      const { data } = await axios.get("http://localhost:5005/users", options);
       if (data.error) {
-        setError(data.error);
+        throw new Error(data.error);
       } else {
-        setAllUsers(data)
-      } 
+        console.log(data);
+        setAllUsers(data);
+      }
+    } catch (err) {
+      throw new Error(err.message);
     }
   };
 
@@ -53,7 +55,7 @@ export const DataPage = () => {
         DataPage
       </div>
       <div className="table-container">
-        <Table />
+        <Table allUsers={allUsers} userDetails={userDetails} />
       </div>
     </>
   );

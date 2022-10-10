@@ -17,7 +17,16 @@ export const ChildLogin = ({ setShowSignUp }) => {
       setError("Missing email or password!");
     } else {
       try {
-        let data = { name: "william", age: 17 };
+        let data = {
+          department: "Tech",
+          email: "will@bluesquare.com",
+          firstname: "Will",
+          id: 1,
+          isadmin: true,
+          jobrole: "Coder",
+          lastname: "Sessions",
+          number: "0781927812",
+        };
         navigate("/users", { state: data });
         /*  let loginDetails = {
           email: email,

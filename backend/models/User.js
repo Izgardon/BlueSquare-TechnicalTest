@@ -28,6 +28,7 @@ module.exports = class User {
           "INSERT INTO users (firstName, lastName, jobRole, department, email, number, isAdmin) VALUES ($1, $2, $3, $4, $5, 6$, 7$) RETURNING *;",
           [firstNameNew, lastNameNew, passwordNew, emailNew]
         );
+        console.log(result);
         const user = new User(result.rows[0]);
         resolve(user);
       } catch (err) {
@@ -40,9 +41,9 @@ module.exports = class User {
   static async getAll() {
     return new Promise(async (resolve, reject) => {
       try {
-        const allUsers = await pool.query("SELECT * FROM users");
+        const result = await pool.query("SELECT * FROM users");
 
-        resolve(allUsers);
+        resolve(result.rows);
       } catch (err) {
         reject("Could not get users");
       }
