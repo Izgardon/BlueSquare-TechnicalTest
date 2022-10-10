@@ -50,7 +50,14 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
 
   const addUser = async (e) => {
     e.preventDefault();
-    if (email === "" || number === "" || firstName === "" || lastName === "") {
+    if (
+      email === "" ||
+      number === "" ||
+      firstName === "" ||
+      lastName === "" ||
+      jobRole === "" ||
+      department === ""
+    ) {
       setError("Missing fields!");
     } else if (!email.includes("@bluesquare")) {
       setError("Email is invalid, only BlueSquare accounts allowed");
@@ -60,13 +67,13 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
       setError("");
       try {
         let addUserDetails = {
-          firstname: firstName,
-          lastname: lastName,
-          jobrole: jobRole,
-          department: department,
-          number: number,
-          email: email,
-          isadmin: false,
+          firstNameNew: firstName,
+          lastNameNew: lastName,
+          jobRoleNew: jobRole,
+          departmentNew: department,
+          numberNew: number,
+          emailNew: email,
+          isAdminNew: false,
         };
         let options = {
           headers: {
@@ -79,9 +86,11 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
           JSON.stringify(addUserDetails),
           options
         );
+
         if (data.error) {
           setError(data.error);
         } else {
+          alert(data.msg);
           getAllData();
         }
       } catch (err) {

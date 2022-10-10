@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 
 async function registerAccount(req, res) {
   try {
-    console.log(req.body);
     /* const user = await User.findUsersByEmail(req.body.email);
 
     if (!user.length) {

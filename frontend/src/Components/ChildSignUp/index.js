@@ -37,7 +37,13 @@ export const ChildSignUp = ({ setShowSignUp }) => {
 
   const onRequestAccount = async (e) => {
     e.preventDefault();
-    if (email === "" || number === "" || firstName === "" || lastName === "") {
+    if (
+      email === "" ||
+      number === "" ||
+      firstName === "" ||
+      lastName === "" ||
+      password === ""
+    ) {
       setError("Missing fields!");
     } else if (password !== confirmPassword) {
       setError("Passwords do not match!");

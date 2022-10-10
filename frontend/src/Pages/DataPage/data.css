@@ -5,6 +5,7 @@
   width: min(1000px, 90%);
   margin-inline: auto;
   position: relative;
+  margin-bottom: 10rem;
 }
 
 table {
@@ -26,6 +27,12 @@ td {
   padding: 1rem;
   border-right: 1px solid black;
   height: 5rem;
+}
+
+.checkbox {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .me {

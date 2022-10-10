@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Modal from "react-bootstrap/Modal";
 
-export const EditEmployeeModal = ({ show, onHide, editUserDetails }) => {
+export const EditEmployeeModal = ({
+  show,
+  onHide,
+  editUserDetails,
+  getAllData,
+}) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [jobRole, setJobRole] = useState("");
   const [department, setDepartment] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
-  const [isAdmin, setIsAdmin] = useState(Boolean);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -21,6 +27,7 @@ export const EditEmployeeModal = ({ show, onHide, editUserDetails }) => {
       setDepartment(editUserDetails.department);
       setEmail(editUserDetails.email);
       setNumber(editUserDetails.number);
+      setIsAdmin(editUserDetails.isadmin);
     }
   }, [editUserDetails]);
 
@@ -49,7 +56,65 @@ export const EditEmployeeModal = ({ show, onHide, editUserDetails }) => {
     setNumber(onlyNumbers);
   };
 
-  const editUser = () => {};
+  const onAdminChange = (e) => {
+    setIsAdmin(!isAdmin);
+  };
+
+  const editUser = async (e) => {
+    e.preventDefault();
+    if (
+      email === "" ||
+      number === "" ||
+      firstName === "" ||
+      lastName === "" ||
+      jobRole === "" ||
+      department === ""
+    ) {
+      setError("Missing fields!");
+    } else if (!email.includes("@bluesquare")) {
+      setError("Email is invalid, only BlueSquare accounts allowed");
+    } else if (number.length < 7 || number.length > 12) {
+      setError("Invalid phone number");
+    } else {
+      setError("");
+      try {
+        let addUserDetails = {
+          firstNameNew: firstName,
+          lastNameNew: lastName,
+          jobRoleNew: jobRole,
+          departmentNew: department,
+          numberNew: number,
+          emailNew: email,
+          isAdminNew: false,
+        };
+        let options = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+
+        const { data } = await axios.post(
+          "http://localhost:5005/users",
+          JSON.stringify(addUserDetails),
+          options
+        );
+
+        if (data.error) {
+          setError(data.error);
+        } else {
+          alert(data.msg);
+          getAllData();
+        }
+      } catch (err) {
+        if (!err.response) {
+          setError("No server response");
+        } else {
+          console.error(err);
+          setError("Login failed!");
+        }
+      }
+    }
+  };
 
   return (
     <Modal
@@ -132,6 +197,16 @@ export const EditEmployeeModal = ({ show, onHide, editUserDetails }) => {
             onChange={onNumberChange}
             aria-label="number"
           />
+          <div className="checkbox">
+            <input
+              type="checkbox"
+              id="isadmin"
+              name="isadmin"
+              checked={isAdmin}
+              onChange={onAdminChange}
+            />
+            <label htmlFor="isadmin">Make admin?</label>
+          </div>
 
           <div className="login-error">{error}</div>
 
