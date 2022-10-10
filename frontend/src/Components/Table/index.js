@@ -1,24 +1,38 @@
 import React, { useEffect, useState } from "react";
 
-import { AddEmployeeModal, EditEmployeeModal } from "../";
+import { AddEmployeeModal, EditEmployeeModal, SearchBar } from "../";
 
 export const Table = ({ allUsers, userDetails, getAllData }) => {
   const [addModalShow, setAddModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
   const [editUserDetails, setEditUserDetails] = useState();
+  const [allUserData, setAllUserData] = useState([]);
 
+  useEffect(() => {
+    setAllUserData(allUsers);
+  }, [allUsers]);
+
+  //Opens edit modal and sends that rows data through to be edited
   const handleEdit = (val) => {
     setEditUserDetails(val);
 
     setEditModalShow(true);
   };
 
+  //Opens add new user modal
+  const handleAdd = () => {
+    setAddModalShow(true);
+  };
+
   return (
     <>
+      <SearchBar />
       {
         //checking to see if user is an admin to give them access to add a new employee
         userDetails.isadmin ? (
-          <button className="edit-button add-employee">Add New Employee</button>
+          <button className="edit-button add-employee" onClick={handleAdd}>
+            Add New Employee
+          </button>
         ) : (
           ""
         )
@@ -95,6 +109,7 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
           }
         </tbody>
       </table>
+
       <AddEmployeeModal
         show={addModalShow}
         onHide={() => setAddModalShow(false)}

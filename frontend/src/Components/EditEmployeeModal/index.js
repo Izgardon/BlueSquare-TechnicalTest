@@ -14,17 +14,18 @@ export const EditEmployeeModal = ({ show, onHide, editUserDetails }) => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    setFirstName(editUserDetails.firstname);
-    setLastName(editUserDetails.lastname);
-    setJobRole(editUserDetails.jobrole);
-    setDepartment(editUserDetails.department);
-    setEmail(editUserDetails.email);
-    setNumber(editUserDetails.number);
+    if (editUserDetails) {
+      setFirstName(editUserDetails.firstname);
+      setLastName(editUserDetails.lastname);
+      setJobRole(editUserDetails.jobrole);
+      setDepartment(editUserDetails.department);
+      setEmail(editUserDetails.email);
+      setNumber(editUserDetails.number);
+    }
   }, [editUserDetails]);
 
   const onFirstNameChange = (e) => {
     setFirstName(e.target.value);
-    console.log(editUserDetails);
   };
 
   const onLastNameChange = (e) => {
