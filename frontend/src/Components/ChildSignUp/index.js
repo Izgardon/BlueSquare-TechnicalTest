@@ -15,7 +15,7 @@ export const ChildSignUp = ({ setShowSignUp }) => {
   const [error, setError] = useState("");
 
   const sendEmail = async (e) => {
-    /* let values = { firstName, lastName, email, number };
+    let values = { firstName, lastName, email, number };
     emailjs
       .send("service_m2ns8nj", "template_jbgslyv", values, "Srs742CC4TX_kVi0u")
       .then(
@@ -32,7 +32,7 @@ export const ChildSignUp = ({ setShowSignUp }) => {
           console.log(error.text);
           alert("Error in request, please seek assistance");
         }
-      ); */
+      );
   };
 
   const onRequestAccount = async (e) => {

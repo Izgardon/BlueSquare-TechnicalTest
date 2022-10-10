@@ -7,10 +7,15 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
   const [editModalShow, setEditModalShow] = useState(false);
   const [editUserDetails, setEditUserDetails] = useState();
   const [allUserData, setAllUserData] = useState([]);
+  const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
     setAllUserData(allUsers);
   }, [allUsers]);
+
+  useEffect(() => {
+    setSearchData(allUsers);
+  }, [allUserData]);
 
   //Opens edit modal and sends that rows data through to be edited
   const handleEdit = (val) => {
@@ -24,9 +29,26 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
     setAddModalShow(true);
   };
 
+  //Deals with searching the users
+
+  const getResults = (search, dropdown) => {
+    if (search === "" || dropdown === "all") {
+      setSearchData(allUserData);
+    } else {
+      let searchResults = [];
+      allUserData.forEach((user) => {
+        if (user[dropdown].toLowerCase().includes(search)) {
+          searchResults.push(user);
+        }
+      });
+
+      setSearchData(searchResults);
+    }
+  };
+
   return (
     <>
-      <SearchBar />
+      <SearchBar getResults={getResults} />
       {
         //checking to see if user is an admin to give them access to add a new employee
         userDetails.isadmin ? (
@@ -52,7 +74,7 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
         <tbody>
           {
             //looping through all users, checking if they are the user or an admin to give them editing rights, user id is added to the button for easy editing
-            allUsers.map((val, key) => {
+            searchData.map((val, key) => {
               return (
                 <tr
                   key={key}
@@ -113,11 +135,13 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
       <AddEmployeeModal
         show={addModalShow}
         onHide={() => setAddModalShow(false)}
+        getAllData={getAllData}
       />
       <EditEmployeeModal
         editUserDetails={editUserDetails}
         show={editModalShow}
         onHide={() => setEditModalShow(false)}
+        getAllData={getAllData}
       />
     </>
   );

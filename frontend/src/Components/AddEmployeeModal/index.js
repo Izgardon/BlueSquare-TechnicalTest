@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Modal from "react-bootstrap/Modal";
 
-export const AddEmployeeModal = ({ show, onHide }) => {
+export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [jobRole, setJobRole] = useState("");
@@ -47,7 +48,52 @@ export const AddEmployeeModal = ({ show, onHide }) => {
     setNumber(onlyNumbers);
   };
 
-  const addUser = () => {};
+  const addUser = async (e) => {
+    e.preventDefault();
+    if (email === "" || number === "" || firstName === "" || lastName === "") {
+      setError("Missing fields!");
+    } else if (!email.includes("@bluesquare")) {
+      setError("Email is invalid, only BlueSquare accounts allowed");
+    } else if (number.length < 7 || number.length > 12) {
+      setError("Invalid phone number");
+    } else {
+      setError("");
+      try {
+        let addUserDetails = {
+          firstname: firstName,
+          lastname: lastName,
+          jobrole: jobRole,
+          department: department,
+          number: number,
+          email: email,
+          isadmin: false,
+        };
+        let options = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+
+        const { data } = await axios.post(
+          "http://localhost:5005/users",
+          JSON.stringify(addUserDetails),
+          options
+        );
+        if (data.error) {
+          setError(data.error);
+        } else {
+          getAllData();
+        }
+      } catch (err) {
+        if (!err.response) {
+          setError("No server response");
+        } else {
+          console.error(err);
+          setError("Login failed!");
+        }
+      }
+    }
+  };
 
   return (
     <Modal
