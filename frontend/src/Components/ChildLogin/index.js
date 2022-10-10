@@ -30,7 +30,7 @@ export const ChildLogin = ({ setShowSignUp }) => {
         };
 
         const { data } = await axios.post(
-          "http://localhost:5005/auth/register",
+          "http://localhost:5005/auth/login",
           JSON.stringify(loginDetails),
           options
         );
