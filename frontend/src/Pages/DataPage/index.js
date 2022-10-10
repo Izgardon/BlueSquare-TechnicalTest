@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import "./data.css";
 import { Table } from "../../Components/Table";
@@ -11,7 +12,13 @@ export const DataPage = () => {
 
   //Getting data from login for user
   const { state } = useLocation();
+  const navigate = useNavigate();
 
+  //Prevents unwanted access
+  if (state == null) {
+    navigate("/");
+  }
+  //Setting up all data for page and components
   useEffect(() => {
     setUserDetails(state);
     getAllData();
@@ -30,7 +37,6 @@ export const DataPage = () => {
       if (data.error) {
         throw new Error(data.error);
       } else {
-        console.log(data);
         setAllUsers(data);
       }
     } catch (err) {
@@ -38,24 +44,15 @@ export const DataPage = () => {
     }
   };
 
-  /*   let test = () => {
-    if (Object.keys(userDetails).length === 0) {
-      console.log(userDetails);
-    }
-  }; */
-
   return (
     <>
-      {" "}
-      <div
-        onClick={() => {
-          test();
-        }}
-      >
-        DataPage
-      </div>
+      <div className="logo"></div>
       <div className="table-container">
-        <Table allUsers={allUsers} userDetails={userDetails} />
+        <Table
+          allUsers={allUsers}
+          userDetails={userDetails}
+          getAllData={getAllData}
+        />
       </div>
     </>
   );

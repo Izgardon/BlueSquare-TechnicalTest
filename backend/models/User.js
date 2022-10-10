@@ -25,10 +25,18 @@ module.exports = class User {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await pool.query(
-          "INSERT INTO users (firstName, lastName, jobRole, department, email, number, isAdmin) VALUES ($1, $2, $3, $4, $5, 6$, 7$) RETURNING *;",
-          [firstNameNew, lastNameNew, passwordNew, emailNew]
+          "INSERT INTO users (firstname, lastname, jobrole, department, email, number, isadmin) VALUES ($1, $2, $3, $4, $5, 6$, 7$) RETURNING *;",
+          [
+            firstNameNew,
+            lastNameNew,
+            jobRoleNew,
+            departmentNew,
+            emailNew,
+            numberNew,
+            isAdminNew,
+          ]
         );
-        console.log(result);
+        console.log(result.rows);
         const user = new User(result.rows[0]);
         resolve(user);
       } catch (err) {
@@ -42,7 +50,7 @@ module.exports = class User {
     return new Promise(async (resolve, reject) => {
       try {
         const result = await pool.query("SELECT * FROM users");
-
+        console.log(result.rows);
         resolve(result.rows);
       } catch (err) {
         reject("Could not get users");

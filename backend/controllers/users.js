@@ -9,7 +9,7 @@ async function getAllUsers(req, res) {
 }
 async function createNewUser(req, res) {
   try {
-    User.createNewUser(req.body);
+    const newUser = await User.createNewUser(req.body);
   } catch (err) {}
 }
 async function editUser(req, res) {

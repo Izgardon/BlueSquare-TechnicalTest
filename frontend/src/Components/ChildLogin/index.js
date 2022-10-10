@@ -20,7 +20,7 @@ export const ChildLogin = ({ setShowSignUp }) => {
         let data = {
           department: "Tech",
           email: "will@bluesquare.com",
-          firstname: "Will",
+          firstname: "Will3",
           id: 1,
           isadmin: true,
           jobrole: "Coder",
