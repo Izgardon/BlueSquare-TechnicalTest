@@ -7,7 +7,7 @@ import "./data.css";
 import { Table } from "../../Components/Table";
 
 export const DataPage = () => {
-  const [userDetails, setUserDetails] = useState({});
+  const [personalDetails, setPersonalDetails] = useState({});
   const [allUsers, setAllUsers] = useState([]);
 
   //Getting data from login for user
@@ -20,7 +20,7 @@ export const DataPage = () => {
   }
   //Setting up all data for page and components
   useEffect(() => {
-    setUserDetails(state);
+    setPersonalDetails(state);
     getAllData();
   }, []);
 
@@ -47,10 +47,11 @@ export const DataPage = () => {
   return (
     <>
       <div className="logo"></div>
+      <button className="edit-button logout-button">Logout</button>
       <div className="table-container">
         <Table
           allUsers={allUsers}
-          userDetails={userDetails}
+          personalDetails={personalDetails}
           getAllData={getAllData}
         />
       </div>

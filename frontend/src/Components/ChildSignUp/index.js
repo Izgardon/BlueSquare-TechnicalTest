@@ -29,7 +29,7 @@ export const ChildSignUp = ({ setShowSignUp }) => {
           setConfirmPassword("");
         },
         (error) => {
-          console.log(error.text);
+          console.errorr(error.text);
           alert("Error in request, please seek assistance");
         }
       );

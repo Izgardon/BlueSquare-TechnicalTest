@@ -8,6 +8,7 @@ export const EditEmployeeModal = ({
   onHide,
   editUserDetails,
   getAllData,
+  personalDetails,
 }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -29,7 +30,7 @@ export const EditEmployeeModal = ({
       setNumber(editUserDetails.number);
       setIsAdmin(editUserDetails.isadmin);
     }
-  }, [editUserDetails]);
+  }, [editUserDetails, show]);
 
   const onFirstNameChange = (e) => {
     setFirstName(e.target.value);
@@ -85,7 +86,7 @@ export const EditEmployeeModal = ({
           departmentNew: department,
           numberNew: number,
           emailNew: email,
-          isAdminNew: false,
+          isAdminNew: isAdmin,
         };
         let options = {
           headers: {
@@ -94,7 +95,7 @@ export const EditEmployeeModal = ({
         };
 
         const { data } = await axios.post(
-          "http://localhost:5005/users",
+          `http://localhost:5005/users/${editUserDetails.id}`,
           JSON.stringify(addUserDetails),
           options
         );
@@ -104,6 +105,7 @@ export const EditEmployeeModal = ({
         } else {
           alert(data.msg);
           getAllData();
+          onHide();
         }
       } catch (err) {
         if (!err.response) {
@@ -197,16 +199,20 @@ export const EditEmployeeModal = ({
             onChange={onNumberChange}
             aria-label="number"
           />
-          <div className="checkbox">
-            <input
-              type="checkbox"
-              id="isadmin"
-              name="isadmin"
-              checked={isAdmin}
-              onChange={onAdminChange}
-            />
-            <label htmlFor="isadmin">Make admin?</label>
-          </div>
+          {personalDetails.isadmin ? (
+            <div className="checkbox">
+              <input
+                type="checkbox"
+                id="isadmin"
+                name="isadmin"
+                checked={isAdmin}
+                onChange={onAdminChange}
+              />
+              <label htmlFor="isadmin">Make admin?</label>
+            </div>
+          ) : (
+            ""
+          )}
 
           <div className="login-error">{error}</div>
 

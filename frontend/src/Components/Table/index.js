@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { AddEmployeeModal, EditEmployeeModal, SearchBar } from "../";
 
-export const Table = ({ allUsers, userDetails, getAllData }) => {
+export const Table = ({ allUsers, personalDetails, getAllData }) => {
   const [addModalShow, setAddModalShow] = useState(false);
   const [editModalShow, setEditModalShow] = useState(false);
   const [editUserDetails, setEditUserDetails] = useState();
@@ -51,7 +51,7 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
       <SearchBar getResults={getResults} />
       {
         //checking to see if user is an admin to give them access to add a new employee
-        userDetails.isadmin ? (
+        personalDetails.isadmin ? (
           <button className="edit-button add-employee" onClick={handleAdd}>
             Add New Employee
           </button>
@@ -79,9 +79,9 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
                 <tr
                   key={key}
                   className={
-                    val.email === userDetails.email
+                    val.email === personalDetails.email
                       ? "me"
-                      : val.isadmin && val.email !== userDetails.email
+                      : val.isadmin && val.email !== personalDetails.email
                       ? "admin"
                       : ""
                   }
@@ -94,7 +94,7 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
                   <td>{val.email}</td>
                   {
                     //checks to see if user is current db entry or if user is admin and gives them access to button to edit their data, which then sends through that users data
-                    val.email === userDetails.email ? (
+                    val.email === personalDetails.email ? (
                       <td className="button-field">
                         <button
                           className="edit-button"
@@ -110,7 +110,8 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
                       ""
                     )
                   }
-                  {userDetails.isadmin && val.email !== userDetails.email ? (
+                  {personalDetails.isadmin &&
+                  val.email !== personalDetails.email ? (
                     <td className="button-field">
                       <button
                         className="edit-button"
@@ -138,6 +139,7 @@ export const Table = ({ allUsers, userDetails, getAllData }) => {
         getAllData={getAllData}
       />
       <EditEmployeeModal
+        personalDetails={personalDetails}
         editUserDetails={editUserDetails}
         show={editModalShow}
         onHide={() => setEditModalShow(false)}

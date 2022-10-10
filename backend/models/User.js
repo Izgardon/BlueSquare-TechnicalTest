@@ -24,7 +24,6 @@ module.exports = class User {
   }) {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log("model");
         const result = await pool.query(
           "INSERT INTO users (firstname, lastname, jobrole, department, email, number, isadmin) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;",
           [
@@ -45,11 +44,45 @@ module.exports = class User {
     });
   }
 
+  //To edit an existing user, logic done on front end to check who can do this
+  static async updateUser(id, data) {
+    return new Promise(async (resolve, reject) => {
+      const {
+        firstNameNew,
+        lastNameNew,
+        jobRoleNew,
+        departmentNew,
+        emailNew,
+        numberNew,
+        isAdminNew,
+      } = data;
+      try {
+        const result = await pool.query(
+          "UPDATE users SET firstname = $1, lastname = $2, jobrole = $3, department = $4, email = $5, number = $6, isadmin = $7 WHERE id = $8 RETURNING *;",
+          [
+            firstNameNew,
+            lastNameNew,
+            jobRoleNew,
+            departmentNew,
+            emailNew,
+            numberNew,
+            isAdminNew,
+            id,
+          ]
+        );
+        console.log(result.rows);
+        resolve();
+      } catch (err) {
+        reject("User account could not be created");
+      }
+    });
+  }
+
   //Function fires when on datapage to get every users data and put it into state
   static async getAll() {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await pool.query("SELECT * FROM users");
+        const result = await pool.query("SELECT * FROM users;");
 
         resolve(result.rows);
       } catch (err) {

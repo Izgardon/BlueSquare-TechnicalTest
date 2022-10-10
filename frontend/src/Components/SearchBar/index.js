@@ -22,7 +22,7 @@ export const SearchBar = ({ getResults }) => {
   return (
     <form className="search-form" onSubmit={handleSubmit}>
       <select className="dropdown" value={dropdown} onChange={handleDropdown}>
-        <option selected hidden value="all">
+        <option hidden value="all">
           Select criteria
         </option>
         <option value="firstname">First Name</option>

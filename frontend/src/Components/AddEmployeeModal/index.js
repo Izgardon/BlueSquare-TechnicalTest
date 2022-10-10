@@ -10,7 +10,7 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
   const [department, setDepartment] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
-  const [isAdmin, setIsAdmin] = useState(Boolean);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -21,6 +21,7 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
     setDepartment("");
     setEmail("");
     setNumber("");
+    setIsAdmin(false);
   }, [show]);
 
   const onFirstNameChange = (e) => {
@@ -48,6 +49,10 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
     setNumber(onlyNumbers);
   };
 
+  const onAdminChange = (e) => {
+    setIsAdmin(!isAdmin);
+  };
+
   const addUser = async (e) => {
     e.preventDefault();
     if (
@@ -73,7 +78,7 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
           departmentNew: department,
           numberNew: number,
           emailNew: email,
-          isAdminNew: false,
+          isAdminNew: isAdmin,
         };
         let options = {
           headers: {
@@ -92,6 +97,7 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
         } else {
           alert(data.msg);
           getAllData();
+          onHide();
         }
       } catch (err) {
         if (!err.response) {
@@ -185,6 +191,16 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
             onChange={onNumberChange}
             aria-label="number"
           />
+          <div className="checkbox">
+            <input
+              type="checkbox"
+              id="isadmin"
+              name="isadmin"
+              checked={isAdmin}
+              onChange={onAdminChange}
+            />
+            <label htmlFor="isadmin">Make admin?</label>
+          </div>
 
           <div className="login-error">{error}</div>
 

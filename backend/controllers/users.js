@@ -19,7 +19,8 @@ async function createNewUser(req, res) {
 }
 async function editUser(req, res) {
   try {
-    User.updateUser(req.params.id, req.body);
+    User.updateUser(+req.params.id, req.body);
+    res.status(200).json({ msg: "Successfully changed!" });
   } catch (err) {
     res.status(500).send(err);
   }
