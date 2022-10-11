@@ -65,6 +65,16 @@ export const EditEmployeeModal = ({
   const editUser = async (e) => {
     e.preventDefault();
     if (
+      email === editUserDetails.email &&
+      number === editUserDetails.number &&
+      firstName === editUserDetails.firstname &&
+      lastName === editUserDetails.lastname &&
+      jobRole === editUserDetails.jobrole &&
+      department === editUserDetails.department &&
+      isAdmin === editUserDetails.isadmin
+    ) {
+      onHide();
+    } else if (
       email === "" ||
       number === "" ||
       firstName === "" ||

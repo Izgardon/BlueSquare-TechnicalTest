@@ -97,14 +97,14 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
         } else {
           alert(data.msg);
           getAllData();
-          onHide();
+          /* onHide(); */
         }
       } catch (err) {
         if (!err.response) {
           setError("No server response");
         } else {
           console.error(err);
-          setError("Login failed!");
+          setError("Adding user failed");
         }
       }
     }

@@ -44,10 +44,17 @@ export const DataPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    setPersonalDetails({});
+    navigate("/");
+  };
+
   return (
     <>
       <div className="logo"></div>
-      <button className="edit-button logout-button">Logout</button>
+      <button className="edit-button logout-button" onClick={handleLogout}>
+        Logout
+      </button>
       <div className="table-container">
         <Table
           allUsers={allUsers}

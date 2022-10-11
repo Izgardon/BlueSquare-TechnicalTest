@@ -107,7 +107,7 @@ export const Table = ({ allUsers, personalDetails, getAllData }) => {
                         </button>{" "}
                       </td>
                     ) : (
-                      ""
+                      <td></td>
                     )
                   }
                   {personalDetails.isadmin &&
