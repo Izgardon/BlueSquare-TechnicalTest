@@ -13,21 +13,11 @@ export const ChildLogin = ({ setShowSignUp }) => {
 
   const onSignIn = async (e) => {
     e.preventDefault();
+    setError("");
     if (email === "" || password === "") {
       setError("Missing email or password!");
     } else {
       try {
-        /* let data = {
-          department: "Tech",
-          email: "will@bluesquare.com",
-          firstname: "Will3",
-          id: 1,
-          isadmin: true,
-          jobrole: "Coder",
-          lastname: "Sessions",
-          number: "0781927812",
-        }; */
-
         let loginDetails = {
           email: email,
           password: password,
@@ -43,6 +33,7 @@ export const ChildLogin = ({ setShowSignUp }) => {
           JSON.stringify(loginDetails),
           options
         );
+
         if (data.error) {
           setError(data.error);
         } else {
@@ -52,9 +43,7 @@ export const ChildLogin = ({ setShowSignUp }) => {
         if (!err.response) {
           setError("No server response!");
         } else if (err.response.status === 401) {
-          setError(
-            "Unauthorized! Create an account or check your email and password!"
-          );
+          setError("Incorrect password!");
         } else {
           setError("Login failed!");
         }

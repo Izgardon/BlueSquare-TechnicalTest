@@ -24,6 +24,13 @@ table {
   overflow-x: scroll;
 }
 
+input:disabled {
+  background-color: rgba(128, 128, 128, 0.5);
+}
+input:disabled:hover {
+  background-color: rgba(128, 128, 128, 0.5);
+}
+
 th {
   width: fit-content;
   padding-inline: 1rem;
@@ -37,6 +44,7 @@ td {
   padding: 1rem;
   border-right: 1px solid black;
   height: 5rem;
+  min-width: 6rem;
 }
 
 .checkbox {
@@ -73,6 +81,16 @@ td {
   border: var(--dark-blue) 1px solid;
   color: var(--off-black);
   background-color: var(--off-white);
+}
+
+.edit-button-group {
+  display: flex;
+  width: 100%;
+  margin-inline: auto;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
 }
 
 .add-employee {

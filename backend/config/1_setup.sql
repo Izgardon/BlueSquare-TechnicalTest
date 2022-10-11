@@ -25,6 +25,3 @@ VALUES
     ('Jon', 'Johnson', 'Designer', 'Tech','jon@bluesquare.com','07819232122', FALSE),
     ('Steve', 'Adams', 'Coder', 'Tech','steve@bluesquare.com','0781972312', FALSE); 
 
-INSERT INTO accounts (email, password)
-VALUES
-    ('m@bluesquare','test');

@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const Auth = require("../models/Auth");
-const e = require("express");
 
 //Gets all users and sends them to front end
 async function getAllUsers(req, res) {
@@ -40,4 +39,13 @@ async function editUser(req, res) {
   }
 }
 
-module.exports = { getAllUsers, createNewUser, editUser };
+async function deleteUser(req, res) {
+  try {
+    User.deleteUser(+req.params.id);
+    res.status(200).json({ msg: "Successfully removed user" });
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}
+
+module.exports = { getAllUsers, createNewUser, editUser, deleteUser };

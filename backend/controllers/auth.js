@@ -34,7 +34,13 @@ async function login(req, res) {
     res.status(200).json({ error: "Waiting on account creation" });
   } else if (userCheck.length > 0 && account.length > 0) {
     try {
-      console.log("working!");
+      let authed = await bcrypt.compare(req.body.password, account[0].password);
+
+      if (authed) {
+        res.status(200).json(userCheck[0]);
+      } else {
+        res.status(401).json({ error: "Incorrect password" });
+      }
     } catch (err) {
       res.status(500).json({ err });
     }

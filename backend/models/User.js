@@ -12,6 +12,19 @@ module.exports = class User {
     this.isadmin = data.isadmin;
   }
 
+  //Function fires when on datapage to get every users data and put it into state
+  static async getAll() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await pool.query("SELECT * FROM users ORDER BY id;");
+
+        resolve(result.rows);
+      } catch (err) {
+        reject("Could not get users");
+      }
+    });
+  }
+
   //Used by admin to add new user to database
   static async createNewUser({
     firstNameNew,
@@ -78,15 +91,16 @@ module.exports = class User {
     });
   }
 
-  //Function fires when on datapage to get every users data and put it into state
-  static async getAll() {
+  //deletes a user from user database
+  static async deleteUser(id) {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await pool.query("SELECT * FROM users ORDER BY id;");
+        let result = await pool.query("SELECT * FROM users;");
 
-        resolve(result.rows);
+        await pool.query("DELETE FROM users WHERE id=$1;", [id]);
+        resolve("Entry Deleted");
       } catch (err) {
-        reject("Could not get users");
+        reject("Could not delete user");
       }
     });
   }

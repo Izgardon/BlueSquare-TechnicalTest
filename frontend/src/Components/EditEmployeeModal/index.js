@@ -115,6 +115,7 @@ export const EditEmployeeModal = ({
           setError(data.error);
         } else {
           alert(data.msg);
+
           getAllData();
           onHide();
         }
@@ -125,6 +126,38 @@ export const EditEmployeeModal = ({
           console.error(err);
           setError("Login failed!");
         }
+      }
+    }
+  };
+
+  const deleteUser = async (e) => {
+    e.preventDefault();
+    try {
+      let options = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const { data } = await axios.patch(
+        `http://localhost:5005/users/${editUserDetails.id}`,
+        JSON.stringify({ id: editUserDetails.id }),
+        options
+      );
+
+      if (data.error) {
+        setError(data.error);
+      } else {
+        getAllData();
+        alert(data.msg);
+        onHide();
+      }
+    } catch (err) {
+      if (!err.response) {
+        setError("No server response");
+      } else {
+        console.error(err);
+        setError("Login failed!");
       }
     }
   };
@@ -189,6 +222,7 @@ export const EditEmployeeModal = ({
           />
           <label htmlFor="register-email"></label>
           <input
+            disabled
             className="login-input"
             type="text"
             value={email}
@@ -226,10 +260,18 @@ export const EditEmployeeModal = ({
           )}
 
           <div className="login-error">{error}</div>
-
-          <button className="login-button" onClick={editUser}>
-            Save
-          </button>
+          <div className="edit-button-group">
+            <button className="login-button" onClick={editUser}>
+              Save
+            </button>
+            {personalDetails.isadmin ? (
+              <button className="login-button" onClick={deleteUser}>
+                Delete User
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
         </form>
       </Modal.Body>
     </Modal>
