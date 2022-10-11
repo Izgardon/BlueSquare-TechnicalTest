@@ -64,19 +64,23 @@ export const ChildSignUp = ({ setShowSignUp }) => {
           },
         };
 
-        await axios.post(
+        const { data } = await axios.post(
           "http://localhost:5005/auth/register",
           JSON.stringify(accountDetails),
           options
         );
 
-        sendEmail();
+        if (data.exists) {
+          setError(data.exists);
+        } else {
+          sendEmail();
+        }
       } catch (err) {
         if (!err.response) {
           setError("No server response");
         } else {
           console.error(err);
-          setError("Login failed!");
+          setError("Register failed!");
         }
       }
     }

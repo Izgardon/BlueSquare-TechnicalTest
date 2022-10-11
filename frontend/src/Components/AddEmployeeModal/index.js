@@ -94,10 +94,12 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
 
         if (data.error) {
           setError(data.error);
+        } else if (data.exists) {
+          alert(data.exists);
         } else {
           alert(data.msg);
           getAllData();
-          /* onHide(); */
+          onHide();
         }
       } catch (err) {
         if (!err.response) {

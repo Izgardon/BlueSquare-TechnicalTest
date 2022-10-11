@@ -17,7 +17,7 @@ export const ChildLogin = ({ setShowSignUp }) => {
       setError("Missing email or password!");
     } else {
       try {
-        let data = {
+        /* let data = {
           department: "Tech",
           email: "will@bluesquare.com",
           firstname: "Will3",
@@ -26,9 +26,9 @@ export const ChildLogin = ({ setShowSignUp }) => {
           jobrole: "Coder",
           lastname: "Sessions",
           number: "0781927812",
-        };
-        navigate("/users", { state: data });
-        /*  let loginDetails = {
+        }; */
+
+        let loginDetails = {
           email: email,
           password: password,
         };
@@ -47,13 +47,13 @@ export const ChildLogin = ({ setShowSignUp }) => {
           setError(data.error);
         } else {
           navigate("/users", { state: data });
-        } */
+        }
       } catch (err) {
         if (!err.response) {
           setError("No server response!");
         } else if (err.response.status === 401) {
           setError(
-            "Unauthorized! Create an account or check your email/username and password!"
+            "Unauthorized! Create an account or check your email and password!"
           );
         } else {
           setError("Login failed!");

@@ -31,7 +31,7 @@ module.exports = class User {
             lastNameNew,
             jobRoleNew,
             departmentNew,
-            emailNew,
+            emailNew.toLowerCase(),
             numberNew,
             isAdminNew,
           ]

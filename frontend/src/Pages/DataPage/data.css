@@ -27,6 +27,7 @@ table {
 th {
   width: fit-content;
   padding-inline: 1rem;
+  text-align: center;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
 }
@@ -87,7 +88,7 @@ td {
   position: absolute;
   justify-content: center;
   top: -5rem;
-  left: 1rem;
+  left: 0;
 }
 
 .search-input {

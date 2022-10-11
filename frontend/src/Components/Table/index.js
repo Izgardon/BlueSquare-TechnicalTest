@@ -106,26 +106,22 @@ export const Table = ({ allUsers, personalDetails, getAllData }) => {
                           Edit My Details
                         </button>{" "}
                       </td>
+                    ) : personalDetails.isadmin ? (
+                      <td className="button-field">
+                        <button
+                          className="edit-button"
+                          onClick={() => {
+                            handleEdit(val);
+                          }}
+                          id={val.id}
+                        >
+                          Edit Employee Details
+                        </button>{" "}
+                      </td>
                     ) : (
                       <td></td>
                     )
                   }
-                  {personalDetails.isadmin &&
-                  val.email !== personalDetails.email ? (
-                    <td className="button-field">
-                      <button
-                        className="edit-button"
-                        onClick={() => {
-                          handleEdit(val);
-                        }}
-                        id={val.id}
-                      >
-                        Edit Employee Details
-                      </button>{" "}
-                    </td>
-                  ) : (
-                    ""
-                  )}
                 </tr>
               );
             })

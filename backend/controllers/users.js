@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Auth = require("../models/Auth");
+const e = require("express");
 
 //Gets all users and sends them to front end
 async function getAllUsers(req, res) {
@@ -16,11 +17,14 @@ async function getAllUsers(req, res) {
 async function createNewUser(req, res) {
   try {
     //Check if user already exists
-    let userCheck = await Auth.checkForUser(req.body.emailNew.toString());
-    console.log(userCheck);
-    //Create user
-    /* await User.createNewUser(req.body); */
-    res.status(200).json({ msg: "Successfully added!" });
+    let userCheck = await Auth.checkForUser(req.body.emailNew.toLowerCase());
+    if (userCheck.length > 0) {
+      res.status(200).json({ exists: "User already exists!" });
+    } else {
+      //Create user
+      await User.createNewUser(req.body);
+      res.status(200).json({ msg: "Successfully added!" });
+    }
   } catch (err) {
     res.status(500).send(err);
   }
