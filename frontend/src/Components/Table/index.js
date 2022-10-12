@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
 
 import { AddEmployeeModal, EditEmployeeModal, SearchBar } from "../";
 
@@ -27,6 +28,24 @@ export const Table = ({ allUsers, personalDetails, getAllData }) => {
   //Opens add new user modal
   const handleAdd = () => {
     setAddModalShow(true);
+  };
+
+  //Headers for export table
+  const headers = [
+    { label: "ID", key: "id" },
+    { label: "First Name", key: "firstname" },
+    { label: "Last Name", key: "lastname" },
+    { label: "Email", key: "email" },
+    { label: "Number", key: "number" },
+    { label: "Department", key: "department" },
+    { label: "Job Role", key: "jobrole" },
+    { label: "Admin", key: "isadmin" },
+  ];
+  //Deals with exporting current table data to CSV format to download
+  const csvReport = {
+    data: searchData,
+    headers: headers,
+    filename: "Employee_List.csv",
   };
 
   //Deals with searching the users
@@ -128,6 +147,9 @@ export const Table = ({ allUsers, personalDetails, getAllData }) => {
           }
         </tbody>
       </table>
+      <CSVLink {...csvReport} className="edit-button export">
+        Export to CSV
+      </CSVLink>
 
       <AddEmployeeModal
         show={addModalShow}

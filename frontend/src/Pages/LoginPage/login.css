@@ -21,9 +21,11 @@ body {
   justify-content: center;
   gap: 1rem;
   padding-block: 100px;
-  margin-top: 200px;
+  margin-top: min(200px, 20%);
+  margin-bottom: 200px;
   margin-inline: auto;
   width: min(700px, 90%);
+  max-height: 70%;
   background-color: white;
   border: 2px solid var(--dark-blue);
 }
@@ -102,7 +104,7 @@ body {
 
   font-weight: 600;
   text-transform: uppercase;
-
+  min-width: fit-content;
   width: 30%;
   cursor: pointer;
   font-size: 1.2rem;
