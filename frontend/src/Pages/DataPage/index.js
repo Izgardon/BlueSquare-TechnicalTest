@@ -55,7 +55,7 @@ export const DataPage = () => {
       <button className="edit-button logout-button" onClick={handleLogout}>
         Logout
       </button>
-      <div className="table-container">
+      <div className="main-container">
         <Table
           allUsers={allUsers}
           personalDetails={personalDetails}

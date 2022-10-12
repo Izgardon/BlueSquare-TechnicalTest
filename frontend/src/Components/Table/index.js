@@ -78,75 +78,77 @@ export const Table = ({ allUsers, personalDetails, getAllData }) => {
           ""
         )
       }
-      <table cellSpacing={0}>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Job Role</th>
-            <th>Department</th>
-            <th>Contact Number</th>
-            <th>Email</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            //looping through all users, checking if they are the user or an admin to give them editing rights, user id is added to the button for easy editing
-            searchData.map((val, key) => {
-              return (
-                <tr
-                  key={key}
-                  className={
-                    val.email === personalDetails.email
-                      ? "me"
-                      : val.isadmin && val.email !== personalDetails.email
-                      ? "admin"
-                      : ""
-                  }
-                >
-                  <td>{val.firstname}</td>
-                  <td>{val.lastname}</td>
-                  <td>{val.jobrole}</td>
-                  <td>{val.department}</td>
-                  <td>{val.number}</td>
-                  <td>{val.email}</td>
-                  {
-                    //checks to see if user is current db entry or if user is admin and gives them access to button to edit their data, which then sends through that users data
-                    val.email === personalDetails.email ? (
-                      <td className="button-field">
-                        <button
-                          className="edit-button"
-                          onClick={() => {
-                            handleEdit(val);
-                          }}
-                          id={val.id}
-                        >
-                          Edit My Details
-                        </button>{" "}
-                      </td>
-                    ) : personalDetails.isadmin ? (
-                      <td className="button-field">
-                        <button
-                          className="edit-button"
-                          onClick={() => {
-                            handleEdit(val);
-                          }}
-                          id={val.id}
-                        >
-                          Edit Employee Details
-                        </button>{" "}
-                      </td>
-                    ) : (
-                      <td></td>
-                    )
-                  }
-                </tr>
-              );
-            })
-          }
-        </tbody>
-      </table>
+      <div className="table-container">
+        <table cellSpacing={0}>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Job Role</th>
+              <th>Department</th>
+              <th>Contact Number</th>
+              <th>Email</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              //looping through all users, checking if they are the user or an admin to give them editing rights, user id is added to the button for easy editing
+              searchData.map((val, key) => {
+                return (
+                  <tr
+                    key={key}
+                    className={
+                      val.email === personalDetails.email
+                        ? "me"
+                        : val.isadmin && val.email !== personalDetails.email
+                        ? "admin"
+                        : ""
+                    }
+                  >
+                    <td>{val.firstname}</td>
+                    <td>{val.lastname}</td>
+                    <td>{val.jobrole}</td>
+                    <td>{val.department}</td>
+                    <td>{val.number}</td>
+                    <td>{val.email}</td>
+                    {
+                      //checks to see if user is current db entry or if user is admin and gives them access to button to edit their data, which then sends through that users data
+                      val.email === personalDetails.email ? (
+                        <td className="button-field">
+                          <button
+                            className="edit-button"
+                            onClick={() => {
+                              handleEdit(val);
+                            }}
+                            id={val.id}
+                          >
+                            Edit My Details
+                          </button>{" "}
+                        </td>
+                      ) : personalDetails.isadmin ? (
+                        <td className="button-field">
+                          <button
+                            className="edit-button"
+                            onClick={() => {
+                              handleEdit(val);
+                            }}
+                            id={val.id}
+                          >
+                            Edit Employee Details
+                          </button>{" "}
+                        </td>
+                      ) : (
+                        <td></td>
+                      )
+                    }
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+      </div>
       <CSVLink {...csvReport} className="edit-button export">
         Export to CSV
       </CSVLink>

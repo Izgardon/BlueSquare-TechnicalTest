@@ -7,7 +7,7 @@
 
 /* Table */
 
-.table-container {
+.main-container {
   display: flex;
   margin-top: 12rem;
   justify-content: center;
@@ -19,9 +19,8 @@
 
 table {
   border: 2px solid black;
-
+  overflow-x: auto;
   background-color: var(--off-white);
-  overflow-x: scroll;
 }
 
 input:disabled {
@@ -138,4 +137,30 @@ td {
   border-radius: 5px;
   padding-left: 0.4rem;
   margin-right: 0.25rem;
+}
+/* 
+Mobiles */
+
+@media (max-width: 55rem) {
+  .search-form {
+    flex-direction: column;
+    align-items: center;
+    top: -7rem;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .export {
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .body {
+    overflow-x: auto;
+  }
 }
