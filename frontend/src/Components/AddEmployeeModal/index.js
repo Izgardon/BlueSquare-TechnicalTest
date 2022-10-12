@@ -53,6 +53,7 @@ export const AddEmployeeModal = ({ show, onHide, getAllData }) => {
     setIsAdmin(!isAdmin);
   };
 
+  //Add users to database, checks fields first . If successful, runs getData() function again to refresh the data on the page
   const addUser = async (e) => {
     e.preventDefault();
     if (
